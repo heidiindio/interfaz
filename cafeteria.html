@@ -3,34 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BrewGo — Menú Digital y Pedidos</title>
+  <title>BrewGo — Menú Accesible por Voz e Iconos</title>
   <style>
     :root {
       --coffee-dark: #3b2212;
       --coffee-med: #5c3a21;
-      --coffee-light: #f7f3ed;
       --app-bg: #f5f0eb;
       --app-card: #ffffff;
       --app-text: #2c221e;
       --app-muted: #6b5e55;
       --app-border: #e6dfd5;
       --success: #15803d;
-      --font-scale: 1;
-    }
-
-    body.high-contrast {
-      --app-bg: #000000;
-      --app-card: #121212;
-      --app-text: #ffffff;
-      --app-muted: #ffd54f;
-      --app-border: #ffffff;
-      --coffee-dark: #ffab00;
-      --coffee-med: #ffd54f;
-      --coffee-light: #1e1e1e;
-    }
-
-    body.large-text {
-      --font-scale: 1.15;
     }
 
     * {
@@ -48,7 +31,6 @@
       justify-content: center;
       align-items: center;
       padding: 20px 0;
-      font-size: calc(15px * var(--font-scale));
     }
 
     /* Marco de Celular Móvil */
@@ -65,126 +47,28 @@
       position: relative;
     }
 
-    /* Barra Superior con las opciones exactas adaptadas a los tonos café */
+    /* Barra Superior con Opciones Visuales */
     .phone-header-top {
       background: var(--coffee-dark);
       color: #ffffff;
       padding: 12px 14px;
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
       border-bottom: 1px solid var(--coffee-med);
     }
 
-    .header-row-1 {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Botones de control estilo pastilla con los tonos solicitados */
-    .toggle-pill {
+    .badge-accessible {
       background: #5c3a21;
       border: 1px solid #70472a;
       color: #ffffff;
-      padding: 6px 10px;
-      border-radius: 12px;
-      font-size: 0.73rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
-
-    .toggle-pill:hover {
-      background: #6b4429;
-    }
-
-    .status-off {
-      color: #fde047;
-      font-weight: 800;
-    }
-
-    .status-on {
-      color: #38bdf8;
-      font-weight: 800;
-    }
-
-    /* Barra Inferior (Menú y opciones flotantes) con los tonos de la imagen original */
-    .mobile-tabbar {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: var(--app-card);
-      border-top: 1px solid var(--app-border);
-      height: 72px;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 8px;
-      z-index: 30;
-    }
-
-    .tab-item {
-      background: transparent;
-      border: none;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      color: var(--app-muted);
-      font-size: 0.72rem;
-      font-weight: 600;
-      cursor: pointer;
-      flex: 1;
-      padding: 4px 0;
-      transition: color 0.2s;
-    }
-
-    .tab-item.active {
-      color: var(--coffee-dark);
-      font-weight: 700;
-    }
-
-    body.high-contrast .tab-item.active {
-      color: var(--coffee-med);
-    }
-
-    .tab-icon {
-      font-size: 19px;
-    }
-
-    /* Sub-banner con Accesible AA y BrewGo App */
-    .sub-banner {
-      background: var(--app-card);
-      border-bottom: 1px solid var(--app-border);
-      padding: 10px 16px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .badge-accessible {
-      background: var(--app-bg);
-      border: 1px solid var(--app-border);
-      color: var(--coffee-dark);
       font-size: 0.78rem;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 16px;
+      padding: 5px 10px;
+      border-radius: 14px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-    }
-
-    .app-name-top {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--app-muted);
     }
 
     /* Contenedor de Pantallas */
@@ -195,7 +79,7 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
-      padding-bottom: 85px;
+      padding-bottom: 90px;
     }
 
     .screen {
@@ -210,130 +94,152 @@
 
     .card {
       background: var(--app-card);
-      border: 1px solid var(--app-border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 2px 6px rgba(44, 34, 30, 0.02);
+      border: 1.5px solid var(--app-border);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(44, 34, 30, 0.04);
     }
 
     .hero-card {
       text-align: center;
-      padding: 24px 16px;
+      padding: 30px 16px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
     .coffee-logo {
-      width: 72px;
-      height: 72px;
+      width: 80px;
+      height: 80px;
       background: var(--coffee-dark);
-      border-radius: 20px;
+      border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 36px;
-      box-shadow: 0 8px 20px rgba(59, 34, 18, 0.2);
+      font-size: 40px;
+      box-shadow: 0 8px 20px rgba(59, 34, 18, 0.25);
     }
 
     .btn-primary {
       background: var(--coffee-dark);
       color: #ffffff;
       border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 0.95rem;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 1.1rem;
       font-weight: 700;
       cursor: pointer;
       width: 100%;
       text-align: center;
-      min-height: 48px;
-      box-shadow: 0 4px 12px rgba(59, 34, 18, 0.15);
-    }
-
-    body.high-contrast .btn-primary {
-      color: #000000;
+      min-height: 56px;
+      box-shadow: 0 6px 16px rgba(59, 34, 18, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
     .btn-secondary {
       background: var(--app-card);
       color: var(--app-text);
-      border: 1.5px solid var(--app-border);
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 0.9rem;
+      border: 2px solid var(--app-border);
+      padding: 14px;
+      border-radius: 16px;
+      font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
       width: 100%;
       text-align: center;
-      min-height: 46px;
+      min-height: 50px;
+    }
+
+    /* Buscador adaptado con botón grande de voz */
+    .search-box-wrapper {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
     }
 
     .search-input {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1.5px solid var(--app-border);
+      flex: 1;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 2px solid var(--app-border);
       background: var(--app-card);
       color: var(--app-text);
-      font-size: 0.92rem;
-      min-height: 44px;
+      font-size: 1rem;
+      min-height: 52px;
     }
 
-    .chips-row {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
-    }
-
-    .chip {
-      padding: 8px 14px;
-      border-radius: 20px;
-      border: 1px solid var(--app-border);
-      background: var(--app-card);
-      color: var(--app-text);
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      min-height: 36px;
-    }
-
-    .chip.active {
+    .btn-voice {
       background: var(--coffee-dark);
+      border: none;
       color: #ffffff;
-      border-color: var(--coffee-dark);
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(59, 34, 18, 0.2);
     }
 
-    body.high-contrast .chip.active {
-      color: #000000;
+    /* Barra de Navegación Inferior (Basada en símbolos e iconos grandes) */
+    .mobile-tabbar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--app-card);
+      border-top: 2px solid var(--app-border);
+      height: 80px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 8px;
+      z-index: 30;
     }
 
-    .allergen-tag {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: #fef3c7;
-      color: #92400e;
-      font-weight: 600;
-      margin-top: 6px;
+    .tab-item {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--app-muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      flex: 1;
+      padding: 6px 0;
     }
 
-    /* Toast flotante */
+    .tab-item.active {
+      color: var(--coffee-dark);
+      transform: scale(1.05);
+    }
+
+    .tab-icon {
+      font-size: 26px;
+    }
+
     .toast {
       position: absolute;
-      bottom: 80px;
+      bottom: 95px;
       left: 50%;
       transform: translateX(-50%);
       background: #2c221e;
       color: #ffffff;
-      padding: 10px 16px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s;
@@ -348,155 +254,92 @@
 </head>
 <body>
 
-  <!-- Marco de Celular -->
   <div class="phone-frame">
     
-    <!-- Barra Superior con las opciones de Alto Contraste y Texto Grande integradas -->
+    <!-- Barra Superior -->
     <header class="phone-header-top">
-      <div class="header-row-1">
-        <button class="toggle-pill" onclick="toggleContrast()">
-          🌓 Alto Contraste: <span id="contrastLabel" class="status-off">OFF</span>
-        </button>
-        <button class="toggle-pill" onclick="toggleTextSize()">
-          🔠 Texto Grande: <span id="textLabel" class="status-off">OFF</span>
-        </button>
-      </div>
+      <div class="badge-accessible">♿ 100% Accesible Visual</div>
+      <span style="font-weight: 800; font-size: 0.95rem;">BrewGo App</span>
     </header>
 
-    <!-- Sub-barra como en la imagen -->
-    <div class="sub-banner">
-      <div class="badge-accessible">♿ Accesible AA</div>
-      <span class="app-name-top">BrewGo App</span>
-    </div>
-
-    <!-- Contenedor Pantallas -->
+    <!-- Pantallas de la App -->
     <main class="screen-container">
       
-      <!-- SCREEN 1: Inicio -->
+      <!-- INICIO -->
       <section class="screen active" id="screen-1">
         <div class="card hero-card">
           <div class="coffee-logo">☕</div>
-          <h1 style="font-size: 1.6rem; font-weight: 800; color: var(--coffee-dark);">BrewGo</h1>
-          <p style="font-size: 0.78rem; font-weight: 700; color: var(--app-muted); letter-spacing: 0.03em;">PIDE RÁPIDO • SIN FILAS • 100% ACCESIBLE</p>
-          <p style="font-size: 0.88rem; color: var(--app-muted); line-height: 1.5;">
-            Personaliza tu café favorito, consulta alérgenos con claridad y recoge en barra sin esperas.
+          <h1 style="font-size: 1.8rem; font-weight: 800; color: var(--coffee-dark);">Toca para Pedir</h1>
+          <p style="font-size: 0.95rem; color: var(--app-muted); line-height: 1.5;">
+            Diseñado con imágenes, botones grandes y comandos de voz para facilitar tu pedido de inmediato.
           </p>
-          <button class="btn-primary" onclick="goToScreen(2)">Explorar Menú →</button>
+          <button class="btn-primary" onclick="goToScreen(2)">
+            <span>☕</span> Ver el Menú
+          </button>
         </div>
       </section>
 
-      <!-- SCREEN 2: Menú -->
+      <!-- MENÚ Y BÚSQUEDA POR VOZ -->
       <section class="screen" id="screen-2">
-        <div>
-          <h2 style="font-size: 1.3rem; margin-bottom: 4px;">Menú Digital</h2>
-          <p style="font-size: 0.85rem; color: var(--app-muted);">Toca un producto para personalizarlo.</p>
-        </div>
-
-        <input type="text" class="search-input" placeholder="🔍 Buscar café, té o bebidas..." oninput="filterMenu(this.value)" />
-
-        <div class="chips-row">
-          <button class="chip active" onclick="filterCategory('all', this)">Todos</button>
-          <button class="chip" onclick="filterCategory('caliente', this)">Calientes</button>
-          <button class="chip" onclick="filterCategory('frio', this)">Fríos</button>
-          <button class="chip" onclick="filterCategory('sin-lactosa', this)">Sin Lactosa</button>
+        <div class="card" style="text-align: center; background: var(--coffee-dark); color: #fff;">
+          <h2 style="font-size: 1.4rem; margin-bottom: 6px;">Búsqueda por Voz</h2>
+          <p style="font-size: 0.85rem; opacity: 0.85; margin-bottom: 14px;">Toca el micrófono 🎙️ y di qué café deseas</p>
+          <div class="search-box-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Toca el micrófono..." oninput="filterMenu(this.value)" />
+            <button class="btn-voice" onclick="simulateVoiceInput()" title="Hablar">🎙️</button>
+          </div>
         </div>
 
         <div id="menuList" style="display:flex; flex-direction:column; gap:12px;"></div>
       </section>
 
-      <!-- SCREEN 3: Personalización -->
-      <section class="screen" id="screen-3">
-        <button class="chip" style="align-self:flex-start;" onclick="goToScreen(2)">← Volver al menú</button>
-        <div class="card">
-          <h2 id="customItemName" style="font-size:1.2rem;">Latte Vainilla</h2>
-          <p id="customItemPrice" style="font-weight:700; color:var(--coffee-med); font-size:1.05rem; margin-top:2px;">$3.50</p>
-          <span class="allergen-tag">⚠️ Contiene: Lácteos (Opcional vegetal)</span>
-        </div>
-
-        <div class="card">
-          <label for="optSize" style="font-weight:700; font-size:0.88rem; display:block; margin-bottom:6px;">1. Tamaño</label>
-          <select id="optSize" class="search-input" style="max-width:100%;">
-            <option value="0">Mediano (12 oz) — Incluido</option>
-            <option value="0.60">Grande (16 oz) — +$0.60</option>
-          </select>
-        </div>
-
-        <div class="card">
-          <label for="optMilk" style="font-weight:700; font-size:0.88rem; display:block; margin-bottom:6px;">2. Tipo de Leche</label>
-          <select id="optMilk" class="search-input" style="max-width:100%;">
-            <option value="0">Leche Entera</option>
-            <option value="0.50">Leche de Almendras (+$0.50)</option>
-            <option value="0.50">Leche de Avena (+$0.50)</option>
-          </select>
-        </div>
-
-        <button class="btn-primary" onclick="addToCart()">Agregar al Carrito ✓</button>
-      </section>
-
-      <!-- SCREEN 4: Carrito -->
+      <!-- CARRITO -->
       <section class="screen" id="screen-4">
-        <h2 style="font-size: 1.3rem;">Tu Carrito</h2>
+        <h2 style="font-size: 1.4rem;">🛒 Tu Carrito</h2>
         <div id="cartItems" style="display:flex; flex-direction:column; gap:10px;"></div>
         <div class="card">
-          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.1rem;">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.2rem;">
             <span>Total:</span>
             <span id="cartTotal">$0.00</span>
           </div>
         </div>
-        <div style="display:flex; gap:8px;">
-          <button class="btn-secondary" onclick="goToScreen(2)">+ Menú</button>
-          <button class="btn-primary" onclick="goToScreen(5)">Pagar →</button>
-        </div>
+        <button class="btn-primary" onclick="goToScreen(5)">💳 Pagar Ahora</button>
       </section>
 
-      <!-- SCREEN 5: Pago -->
+      <!-- PAGO -->
       <section class="screen" id="screen-5">
-        <button class="chip" style="align-self:flex-start;" onclick="goToScreen(4)">← Carrito</button>
-        <h2 style="font-size: 1.3rem;">Pago Seguro</h2>
-        <div class="card">
-          <label style="font-weight:700; font-size:0.88rem; display:block; margin-bottom:6px;">Método</label>
-          <select class="search-input" style="max-width:100%;">
-            <option>💳 Tarjeta Visa •••• 4821</option>
-            <option>📱 Apple Pay / Google Pay</option>
-            <option>💵 Pagar en Caja al Retirar</option>
-          </select>
+        <h2 style="font-size: 1.4rem;">💳 Confirmar Pago</h2>
+        <div class="card" style="text-align:center;">
+          <p style="font-size: 1.1rem; font-weight:700; margin-bottom:12px;">Punto de Retiro: Barra #2</p>
+          <button class="btn-primary" onclick="confirmOrder()">✅ ¡Listo, Pedir!</button>
         </div>
-        <div class="card">
-          <label style="font-weight:700; font-size:0.88rem; display:block; margin-bottom:4px;">Retiro</label>
-          <p style="font-size:0.88rem; color:var(--app-muted);">Campus Central — Barra #2</p>
-        </div>
-        <button class="btn-primary" onclick="confirmOrder()">Confirmar Pedido</button>
       </section>
 
-      <!-- SCREEN 6: Éxito -->
+      <!-- ÉXITO -->
       <section class="screen" id="screen-6">
-        <div class="card" style="text-align:center; border-color: var(--success);">
-          <div style="font-size: 40px;">✅</div>
-          <h2 style="color: var(--success); font-size:1.2rem; margin-top:6px;">¡Pedido #BG-204 Listo!</h2>
-          <p style="font-size: 0.88rem; margin-top:6px;">Tiempo estimado: <strong>4 minutos</strong></p>
+        <div class="card hero-card" style="border-color: var(--success);">
+          <div style="font-size: 56px;">🎉</div>
+          <h2 style="color: var(--success); font-size:1.4rem;">¡Pedido Exitoso!</h2>
+          <p style="font-size: 1rem;">Recoge tu bebida en la barra en <strong>4 minutos</strong>.</p>
+          <button class="btn-secondary" onclick="goToScreen(1)">🏠 Volver al Inicio</button>
         </div>
-        <button class="btn-secondary" onclick="goToScreen(2)">Hacer otro pedido</button>
       </section>
 
-      <!-- SCREEN 7: Ayuda / Soporte -->
+      <!-- AYUDA / ASISTENCIA VISUAL -->
       <section class="screen" id="screen-7">
-        <h2 style="font-size: 1.3rem; color: var(--coffee-dark);">Ayuda y Soporte</h2>
-        <div class="card">
-          <strong style="font-size:0.9rem;">¿Alergias alimentarias?</strong>
-          <p style="font-size:0.82rem; color:var(--app-muted); margin-top:4px;">Cada producto indica sus alérgenos claramente.</p>
+        <div class="card hero-card">
+          <div style="font-size: 48px;">🛎️</div>
+          <h2 style="font-size: 1.4rem; color: var(--coffee-dark);">¿Necesitas Ayuda?</h2>
+          <p style="font-size: 0.95rem; color: var(--app-muted);">Toca el botón para llamar a un mesero o barista inmediatamente.</p>
+          <button class="btn-primary" onclick="showToast('🔔 Un empleado viene en camino a ayudarte.')">
+            <span>👋</span> Llamar a Asistencia
+          </button>
         </div>
-        <div class="card">
-          <strong style="font-size:0.9rem;">¿Necesitas cancelar o modificar?</strong>
-          <p style="font-size:0.82rem; color:var(--app-muted); margin-top:4px;">Edita tu carrito libremente antes de pagar.</p>
-        </div>
-        <button class="btn-primary" style="background: #3b2212; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="showToast('Un barista acudirá a tu mesa.')">
-          🔔 Solicitar Asistencia en Mesa
-        </button>
       </section>
 
     </main>
 
-    <!-- Barra de Navegación Inferior (Móvil) -->
+    <!-- Barra Inferior de Iconos Claros -->
     <nav class="mobile-tabbar">
       <button class="tab-item active" id="tab-1" onclick="goToScreen(1)">
         <span class="tab-icon">🏠</span>
@@ -508,77 +351,88 @@
       </button>
       <button class="tab-item" id="tab-4" onclick="goToScreen(4)">
         <span class="tab-icon">🛒</span>
-        <span>Carrito (<span id="tabCartCount">1</span>)</span>
+        <span>Carrito</span>
       </button>
       <button class="tab-item" id="tab-7" onclick="goToScreen(7)">
-        <span class="tab-icon">❓</span>
+        <span class="tab-icon">🛎️</span>
         <span>Ayuda</span>
       </button>
     </nav>
 
-    <!-- Toast -->
+    <!-- Toast de Notificación -->
     <div class="toast" id="toastBox"></div>
 
   </div>
 
   <script>
     const products = [
-      { id: 1, name: "Latte Vainilla", cat: "caliente", price: 3.50, allergen: "Lácteos" },
-      { id: 2, name: "Cold Brew Naranja", cat: "frio sin-lactosa", price: 4.00, allergen: "Sin alérgenos" },
-      { id: 3, name: "Matcha Avena Helado", cat: "frio sin-lactosa", price: 4.25, allergen: "Gluten (Avena)" },
-      { id: 4, name: "Cappuccino Clásico", cat: "caliente", price: 3.20, allergen: "Lácteos" }
+      { id: 1, name: "☕ Café Latte Vainilla", price: 3.50, desc: "Dulce y suave" },
+      { id: 2, name: "🍊 Cold Brew con Naranja", price: 4.00, desc: "Frío y refrescante" },
+      { id: 3, name: "🍵 Té Matcha Helado", price: 4.25, desc: "Verde y natural" },
+      { id: 4, name: "☕ Cappuccino Clásico", price: 3.20, desc: "Espuma cremosa" }
     ];
 
-    let selectedProduct = products[0];
-    let cart = [{ name: "Latte Vainilla (Mediano)", price: 3.50 }];
+    let cart = [{ name: "☕ Café Latte Vainilla", price: 3.50 }];
 
-    function renderMenu(list) {
+    function renderMenu() {
       const container = document.getElementById("menuList");
       container.innerHTML = "";
-      list.forEach(p => {
+      products.forEach(p => {
         const div = document.createElement("div");
         div.className = "card";
         div.style.display = "flex";
         div.style.flexDirection = "column";
-        div.style.gap = "8px";
+        div.style.gap = "10px";
         div.innerHTML = `
           <div>
-            <strong style="font-size:0.95rem;">${p.name}</strong>
-            <div style="font-weight:700; color:var(--coffee-med); font-size:0.9rem; margin-top:2px;">$${p.price.toFixed(2)}</div>
-            <span class="allergen-tag">${p.allergen}</span>
+            <strong style="font-size: 1.15rem;">${p.name}</strong>
+            <p style="font-size: 0.85rem; color: var(--app-muted);">${p.desc}</p>
+            <div style="font-weight: 800; color: var(--coffee-med); font-size: 1.1rem; margin-top: 4px;">$${p.price.toFixed(2)}</div>
           </div>
-          <button class="chip active" style="align-self:flex-start;" onclick="selectProduct(${p.id})">Personalizar +</button>
+          <button class="btn-primary" style="padding: 10px; min-height: 44px; font-size: 0.95rem;" onclick="addToCart('${p.name}', ${p.price})">
+            ➕ Agregar al Pedido
+          </button>
         `;
         container.appendChild(div);
       });
     }
 
-    function filterCategory(cat, btn) {
-      document.querySelectorAll(".chips-row .chip").forEach(c => c.classList.remove("active"));
-      btn.classList.add("active");
-      if (cat === "all") return renderMenu(products);
-      renderMenu(products.filter(p => p.cat.includes(cat)));
+    function simulateVoiceInput() {
+      showToast("🎙️ Escuchando voz...");
+      setTimeout(() => {
+        document.getElementById("searchInput").value = "Latte";
+        filterMenu("Latte");
+        showToast("✓ Encontrado: Latte");
+      }, 1500);
     }
 
     function filterMenu(query) {
       const q = query.toLowerCase();
-      renderMenu(products.filter(p => p.name.toLowerCase().includes(q)));
+      const container = document.getElementById("menuList");
+      container.innerHTML = "";
+      const filtered = products.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+      
+      filtered.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `
+          <div>
+            <strong style="font-size: 1.15rem;">${p.name}</strong>
+            <p style="font-size: 0.85rem; color: var(--app-muted);">${p.desc}</p>
+            <div style="font-weight: 800; color: var(--coffee-med); font-size: 1.1rem; margin-top: 4px;">$${p.price.toFixed(2)}</div>
+          </div>
+          <button class="btn-primary" style="padding: 10px; min-height: 44px; font-size: 0.95rem; margin-top:8px;" onclick="addToCart('${p.name}', ${p.price})">
+            ➕ Agregar al Pedido
+          </button>
+        `;
+        container.appendChild(div);
+      });
     }
 
-    function selectProduct(id) {
-      selectedProduct = products.find(p => p.id === id);
-      document.getElementById("customItemName").textContent = selectedProduct.name;
-      document.getElementById("customItemPrice").textContent = `$${selectedProduct.price.toFixed(2)}`;
-      goToScreen(3);
-    }
-
-    function addToCart() {
-      const extraSize = parseFloat(document.getElementById("optSize").value);
-      const extraMilk = parseFloat(document.getElementById("optMilk").value);
-      const finalPrice = selectedProduct.price + extraSize + extraMilk;
-      cart.push({ name: selectedProduct.name + " (Personalizado)", price: finalPrice });
+    function addToCart(name, price) {
+      cart.push({ name, price });
       updateCartUI();
-      showToast("Agregado al carrito ✓");
+      showToast("✓ ¡Agregado al carrito!");
       goToScreen(4);
     }
 
@@ -599,21 +453,21 @@
         div.style.display = "flex";
         div.style.justifyContent = "space-between";
         div.style.alignItems = "center";
-        div.style.padding = "10px 14px";
+        div.style.padding = "12px 16px";
         div.innerHTML = `
           <div>
-            <strong style="font-size:0.85rem;">${item.name}</strong>
-            <div style="color:var(--coffee-med); font-weight:700; font-size:0.85rem;">$${item.price.toFixed(2)}</div>
+            <strong style="font-size: 0.95rem;">${item.name}</strong>
+            <div style="color: var(--coffee-med); font-weight: 800; font-size: 0.95rem;">$${item.price.toFixed(2)}</div>
           </div>
-          <button class="chip" onclick="removeFromCart(${idx})">🗑️</button>
+          <button class="btn-secondary" style="width: auto; padding: 6px 12px; min-height: 36px; color: #b91c1c; border-color: #fca5a5;" onclick="removeFromCart(${idx})">❌</button>
         `;
         box.appendChild(div);
       });
+
       if (cart.length === 0) {
-        box.innerHTML = `<div class="card"><p style="color:var(--app-muted); text-align:center; font-size:0.85rem;">Tu carrito está vacío.</p></div>`;
+        box.innerHTML = `<div class="card" style="text-align:center;"><p style="color: var(--app-muted);">Tu carrito está vacío.</p></div>`;
       }
       document.getElementById("cartTotal").textContent = `$${total.toFixed(2)}`;
-      document.getElementById("tabCartCount").textContent = cart.length;
     }
 
     function confirmOrder() {
@@ -639,30 +493,14 @@
       if (container) container.scrollTop = 0;
     }
 
-    function toggleContrast() {
-      document.body.classList.toggle("high-contrast");
-      const isOn = document.body.classList.contains("high-contrast");
-      const lbl = document.getElementById("contrastLabel");
-      lbl.textContent = isOn ? "ON" : "OFF";
-      lbl.className = isOn ? "status-on" : "status-off";
-    }
-
-    function toggleTextSize() {
-      document.body.classList.toggle("large-text");
-      const isOn = document.body.classList.contains("large-text");
-      const lbl = document.getElementById("textLabel");
-      lbl.textContent = isOn ? "ON" : "OFF";
-      lbl.className = isOn ? "status-on" : "status-off";
-    }
-
     function showToast(msg) {
       const t = document.getElementById("toastBox");
       t.textContent = msg;
       t.classList.add("show");
-      setTimeout(() => t.classList.remove("show"), 2300);
+      setTimeout(() => t.classList.remove("show"), 2500);
     }
 
-    renderMenu(products);
+    renderMenu();
     updateCartUI();
   </script>
 </body>
