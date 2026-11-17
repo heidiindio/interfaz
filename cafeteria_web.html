@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrewGo — Menú Digital y Pedidos</title>
+  <style>
+    :root {
+      --coffee-dark: #3b2212;
+      --coffee-med: #5c3a21;
+      --coffee-light: #f7f3ed;
+      --app-bg: #f5f0eb;
+      --app-card: #ffffff;
+      --app-text: #2c221e;
+      --app-muted: #6b5e55;
+      --app-border: #e6dfd5;
+      --success: #15803d;
+      --font-scale: 1;
+    }
+
+    body.high-contrast {
+      --app-bg: #000000;
+      --app-card: #121212;
+      --app-text: #ffffff;
+      --app-muted: #ffd54f;
+      --app-border: #ffffff;
+      --coffee-dark: #ffab00;
+      --coffee-med: #ffd54f;
+      --coffee-light: #1e1e1e;
+    }
+
+    body.large-text {
+      --font-scale: 1.18;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--app-bg);
+      color: var(--app-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: calc(16px * var(--font-scale));
+    }
+
+    /* Barra superior web inspirada en los colores de la imagen */
+    .web-navbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: var(--coffee-dark);
+      color: #ffffff;
+      border-bottom: 1px solid var(--coffee-med);
+      padding: 14px 28px;
+      box-shadow: 0 4px 12px rgba(59, 34, 18, 0.15);
+    }
+
+    .navbar-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      background: #5c3a21;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .brand-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.01em;
+    }
+
+    /* Opciones de navegación superior en blanco */
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .nav-link {
+      background: transparent;
+      border: 1px solid transparent;
+      color: #ffffff;
+      padding: 9px 16px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .nav-link.active {
+      background: rgba(255, 255, 255, 0.22);
+      font-weight: 700;
+    }
+
+    .a11y-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .toggle-pill {
+      background: #5c3a21;
+      border: 1px solid #70472a;
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .status-off {
+      color: #fde047;
+      font-weight: 800;
+    }
+
+    .status-on {
+      color: #38bdf8;
+      font-weight: 800;
+    }
+
+    /* Sub-barra informativa WCAG */
+    .sub-banner {
+      background: var(--app-card);
+      border-bottom: 1px solid var(--app-border);
+      padding: 10px 28px;
+    }
+
+    .sub-banner-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .wcag-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--app-border);
+      background: var(--app-bg);
+      font-size: 0.82em;
+      font-weight: 600;
+      color: var(--coffee-dark);
+    }
+
+    /* Contenedor Principal Web */
+    .main-container {
+      flex: 1;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 28px 64px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .hero-section {
+      background: var(--app-card);
+      border: 1px solid var(--app-border);
+      border-radius: 24px;
+      padding: 48px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      max-width: 720px;
+      margin: 20px auto;
+      box-shadow: 0 4px 16px rgba(44, 34, 30, 0.04);
+    }
+
+    .coffee-logo-box {
+      width: 104px;
+      height: 104px;
+      background: var(--coffee-dark);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      box-shadow: 0 10px 24px rgba(59, 34, 18, 0.2);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      width: 100%;
+      max-width: 460px;
+      margin-top: 8px;
+    }
+
+    .btn-primary {
+      background: var(--coffee-dark);
+      color: #ffffff;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-size: 1em;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 48px;
+      flex: 1;
+      box-shadow: 0 4px 12px rgba(59, 34, 18, 0.2);
+    }
+
+    body.high-contrast .btn-primary {
+      color: #000000;
+    }
+
+    .btn-secondary {
+      background: var(--app-card);
+      color: var(--app-text);
+      border: 2px solid var(--app-border);
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-size: 0.95em;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 48px;
+      flex: 1;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--app-card);
+      border: 1px solid var(--app-border);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(44, 34, 30, 0.03);
+    }
+
+    .search-bar-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 420px;
+      padding: 13px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--app-border);
+      background: var(--app-card);
+      color: var(--app-text);
+      font-size: 0.95em;
+      min-height: 46px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 8px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--app-border);
+      background: var(--app-card);
+      color: var(--app-text);
+      font-size: 0.88em;
+      font-weight: 600;
+      cursor: pointer;
+      min-height: 38px;
+    }
+
+    .chip.active {
+      background: var(--coffee-dark);
+      color: #ffffff;
+      border-color: var(--coffee-dark);
+    }
+
+    body.high-contrast .chip.active {
+      color: #000000;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .allergen-tag {
+      display: inline-block;
+      font-size: 0.78em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: #fef3c7;
+      color: #92400e;
+      font-weight: 600;
+      margin-top: 6px;
+    }
+
+    .narrow-section {
+      max-width: 640px;
+      width: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .cart-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .web-footer {
+      border-top: 1px solid var(--app-border);
+      background: var(--app-card);
+      padding: 20px 28px;
+      text-align: center;
+      font-size: 0.85em;
+      color: var(--app-muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      background: var(--coffee-dark);
+      color: #ffffff;
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 0.92em;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+      z-index: 40;
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra superior web inspirada en los colores de la imagen -->
+  <header class="web-navbar">
+    <div class="navbar-inner">
+      <div class="brand" onclick="goToScreen(1)">
+        <div class="brand-icon">☕</div>
+        <span class="brand-title">BrewGo App</span>
+      </div>
+
+      <nav class="nav-links">
+        <button class="nav-link active" id="nav-1" onclick="goToScreen(1)">🏠 Inicio</button>
+        <button class="nav-link" id="nav-2" onclick="goToScreen(2)">☕ Menú</button>
+        <button class="nav-link" id="nav-4" onclick="goToScreen(4)">🛒 Carrito (<span id="navCartCount">1</span>)</button>
+        <button class="nav-link" id="nav-7" onclick="goToScreen(7)">⚙️ Accesibilidad</button>
+        <button class="nav-link" id="nav-8" onclick="goToScreen(8)">❓ Ayuda</button>
+      </nav>
+
+      <div class="a11y-controls">
+        <button class="toggle-pill" onclick="toggleContrast()">
+          🌓 Alto Contraste: <span id="contrastLabel" class="status-off">OFF</span>
+        </button>
+        <button class="toggle-pill" onclick="toggleTextSize()">
+          🔠 Texto Grande: <span id="textLabel" class="status-off">OFF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="sub-banner">
+    <div class="sub-banner-inner">
+      <span class="wcag-badge">♿ Accesible AA</span>
+      <span style="font-size: 0.85em; color: var(--app-muted); font-weight: 600;">Pide en línea y recoge en barra sin filas</span>
+    </div>
+  </div>
+
+  <!-- Contenido Principal Web -->
+  <main class="main-container">
+    <!-- SCREEN 1: Inicio / Bienvenida -->
+    <section class="screen active" id="screen-1">
+      <div class="hero-section">
+        <div class="coffee-logo-box">☕</div>
+        <h1 style="font-size: 2.3em; font-weight: 800;">Bienvenido a BrewGo</h1>
+        <p style="color: var(--app-muted); font-weight: 700; letter-spacing: 0.04em;">PIDE RÁPIDO • SIN FILAS • 100% ACCESIBLE</p>
+        <p style="font-size: 1em; color: var(--app-muted); line-height: 1.6;">
+          Personaliza tu bebida favorita, consulta la información clara de alérgenos y realiza tu pedido desde cualquier navegador o dispositivo.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="goToScreen(2)">Explorar Menú →</button>
+          <button class="btn-secondary" onclick="goToScreen(7)">⚙️ Ajustes de Accesibilidad</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: Menú Principal -->
+    <section class="screen" id="screen-2">
+      <div>
+        <h2 style="font-size: 1.6em; margin-bottom: 6px;">Menú Digital</h2>
+        <p style="color: var(--app-muted);">Selecciona una bebida para personalizar tamaño y tipo de leche.</p>
+      </div>
+
+      <div class="search-bar-row">
+        <input type="text" class="search-input" placeholder="🔍 Buscar café, té o bebidas..." oninput="filterMenu(this.value)" />
+        <div class="chips">
+          <button class="chip active" onclick="filterCategory('all', this)">Todos</button>
+          <button class="chip" onclick="filterCategory('caliente', this)">Calientes</button>
+          <button class="chip" onclick="filterCategory('frio', this)">Fríos</button>
+          <button class="chip" onclick="filterCategory('sin-lactosa', this)">Sin Lactosa</button>
+        </div>
+      </div>
+
+      <div class="menu-grid" id="menuList"></div>
+    </section>
+
+    <!-- SCREEN 3: Personalización -->
+    <section class="screen" id="screen-3">
+      <div class="narrow-section">
+        <button class="chip" style="align-self:flex-start;" onclick="goToScreen(2)">← Volver al menú</button>
+        <div class="card">
+          <h2 id="customItemName" style="font-size:1.4em;">Latte Vainilla</h2>
+          <p id="customItemPrice" style="font-weight:700; color:var(--coffee-med); font-size:1.15em; margin-top:4px;">$3.50</p>
+          <span class="allergen-tag">⚠️ Contiene: Lácteos (Opcional vegetal)</span>
+        </div>
+
+        <div class="card">
+          <label for="optSize" style="font-weight:700; display:block; margin-bottom:8px;">1. Tamaño (Obligatorio)</label>
+          <select id="optSize" class="search-input" style="max-width:100%;">
+            <option value="0">Mediano (12 oz) — Incluido</option>
+            <option value="0.60">Grande (16 oz) — +$0.60</option>
+          </select>
+        </div>
+
+        <div class="card">
+          <label for="optMilk" style="font-weight:700; display:block; margin-bottom:8px;">2. Tipo de Leche</label>
+          <select id="optMilk" class="search-input" style="max-width:100%;">
+            <option value="0">Leche Entera</option>
+            <option value="0.50">Leche de Almendras (+$0.50)</option>
+            <option value="0.50">Leche de Avena (+$0.50)</option>
+          </select>
+        </div>
+
+        <button class="btn-primary" onclick="addToCart()">Agregar al Carrito ✓</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 4: Carrito -->
+    <section class="screen" id="screen-4">
+      <div class="narrow-section">
+        <h2 style="font-size: 1.5em;">Tu Carrito</h2>
+        <div id="cartItems" style="display:flex; flex-direction:column; gap:12px;"></div>
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; font-weight:800; font-size:1.2em;">
+            <span>Total a pagar:</span>
+            <span id="cartTotal">$0.00</span>
+          </div>
+          <p style="font-size:0.85em; color:var(--app-muted); margin-top:6px;">Puedes editar o eliminar ítems antes de confirmar tu compra.</p>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn-secondary" onclick="goToScreen(2)">+ Seguir pidiendo</button>
+          <button class="btn-primary" onclick="goToScreen(5)">Continuar al Pago →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 5: Pago -->
+    <section class="screen" id="screen-5">
+      <div class="narrow-section">
+        <button class="chip" style="align-self:flex-start;" onclick="goToScreen(4)">← Revisar carrito</button>
+        <h2 style="font-size: 1.5em;">Pago Seguro</h2>
+        <div class="card">
+          <label for="payMethod" style="font-weight:700; display:block; margin-bottom:8px;">Método de Pago</label>
+          <select id="payMethod" class="search-input" style="max-width:100%;">
+            <option>💳 Tarjeta Visa •••• 4821</option>
+            <option>📱 Apple Pay / Google Pay</option>
+            <option>💵 Pagar en Caja al Retirar</option>
+          </select>
+        </div>
+        <div class="card">
+          <label style="font-weight:700; display:block; margin-bottom:6px;">Punto de Retiro</label>
+          <p style="font-size:0.95em;">Sucursal Campus Central — Barra Express #2</p>
+        </div>
+        <button class="btn-primary" onclick="confirmOrder()">Confirmar Pedido Ahora</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 6: Estado del Pedido -->
+    <section class="screen" id="screen-6">
+      <div class="narrow-section">
+        <div class="card" style="text-align:center; border-color: var(--success);">
+          <div style="font-size: 48px;">✅</div>
+          <h2 style="color: var(--success); margin-top:8px;">¡Pedido #BG-204 Confirmado!</h2>
+          <p style="font-size: 1em; margin-top:8px;">Tiempo estimado de entrega: <strong>4 minutos</strong></p>
+        </div>
+        <div class="card">
+          <p style="font-weight:700; margin-bottom:10px;">Progreso en tiempo real:</p>
+          <p style="margin-bottom:6px;">1. ✓ Pedido recibido en barra</p>
+          <p style="margin-bottom:6px;">2. ⏳ Barista preparando tu bebida</p>
+          <p style="color:var(--app-muted);">3. ○ Listo para recoger</p>
+        </div>
+        <button class="btn-secondary" onclick="goToScreen(2)">Hacer otro pedido</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 7: Accesibilidad -->
+    <section class="screen" id="screen-7">
+      <div class="narrow-section">
+        <h2 style="font-size: 1.5em;">Ajustes WCAG 2.1 AA</h2>
+        <div class="card cart-row">
+          <div>
+            <strong>Alto Contraste</strong>
+            <p style="font-size:0.85em; color:var(--app-muted);">Relación mínima de contraste 7:1</p>
+          </div>
+          <button class="chip active" onclick="toggleContrast()">Alternar</button>
+        </div>
+        <div class="card cart-row">
+          <div>
+            <strong>Texto Grande (AA+)</strong>
+            <p style="font-size:0.85em; color:var(--app-muted);">Escala tipográfica +18%</p>
+          </div>
+          <button class="chip active" onclick="toggleTextSize()">Alternar</button>
+        </div>
+        <div class="card">
+          <strong>Áreas Táctiles e Interactivas Amplias</strong>
+          <p style="font-size:0.88em; color:var(--app-muted); margin-top:6px;">Todos los botones y controles cumplen con un área mínima de 44×44 px para facilitar la navegación.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCREEN 8: Ayuda y Soporte -->
+    <section class="screen" id="screen-8">
+      <div class="narrow-section">
+        <h2 style="font-size: 1.5em; color: var(--coffee-dark);">Ayuda y Soporte</h2>
+        <div class="card">
+          <strong>¿Tienes alergias alimentarias?</strong>
+          <p style="font-size:0.88em; color:var(--app-muted); margin-top:6px;">Cada producto indica sus alérgenos antes de agregarlo al carrito.</p>
+        </div>
+        <div class="card">
+          <strong>¿Necesitas cancelar o modificar?</strong>
+          <p style="font-size:0.88em; color:var(--app-muted); margin-top:6px;">Puedes editar tu carrito libremente antes del pago o solicitar ayuda en barra.</p>
+        </div>
+        <button class="btn-primary" style="background: #3b2212; color: #ffffff; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="showToast('Un barista acudirá a asistirte en breve.')">
+          🔔 Solicitar Asistencia en Mesa
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="web-footer">
+    BrewGo • Plataforma Web Accesible WCAG 2.1 AA
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toastBox"></div>
+
+  <script>
+    const products = [
+      { id: 1, name: "Latte Vainilla", cat: "caliente", price: 3.50, allergen: "Lácteos" },
+      { id: 2, name: "Cold Brew Naranja", cat: "frio sin-lactosa", price: 4.00, allergen: "Sin alérgenos" },
+      { id: 3, name: "Matcha Avena Helado", cat: "frio sin-lactosa", price: 4.25, allergen: "Gluten (Avena)" },
+      { id: 4, name: "Cappuccino Clásico", cat: "caliente", price: 3.20, allergen: "Lácteos" }
+    ];
+
+    let selectedProduct = products[0];
+    let cart = [{ name: "Latte Vainilla (Mediano)", price: 3.50 }];
+
+    function renderMenu(list) {
+      const container = document.getElementById("menuList");
+      container.innerHTML = "";
+      list.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "card product-card";
+        div.innerHTML = `
+          <div>
+            <strong style="font-size:1.1em;">${p.name}</strong>
+            <div style="font-weight:700; color:var(--coffee-med); margin-top:4px;">$${p.price.toFixed(2)}</div>
+            <span class="allergen-tag">${p.allergen}</span>
+          </div>
+          <button class="chip active" style="align-self:flex-start;" onclick="selectProduct(${p.id})">Personalizar y Pedir +</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterCategory(cat, btn) {
+      document.querySelectorAll(".chips .chip").forEach(c => c.classList.remove("active"));
+      btn.classList.add("active");
+      if (cat === "all") return renderMenu(products);
+      renderMenu(products.filter(p => p.cat.includes(cat)));
+    }
+
+    function filterMenu(query) {
+      const q = query.toLowerCase();
+      renderMenu(products.filter(p => p.name.toLowerCase().includes(q)));
+    }
+
+    function selectProduct(id) {
+      selectedProduct = products.find(p => p.id === id);
+      document.getElementById("customItemName").textContent = selectedProduct.name;
+      document.getElementById("customItemPrice").textContent = `$${selectedProduct.price.toFixed(2)}`;
+      goToScreen(3);
+    }
+
+    function addToCart() {
+      const extraSize = parseFloat(document.getElementById("optSize").value);
+      const extraMilk = parseFloat(document.getElementById("optMilk").value);
+      const finalPrice = selectedProduct.price + extraSize + extraMilk;
+      cart.push({ name: selectedProduct.name + " (Personalizado)", price: finalPrice });
+      updateCartUI();
+      showToast("Producto agregado al carrito ✓");
+      goToScreen(4);
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartUI();
+      showToast("Ítem eliminado del carrito");
+    }
+
+    function updateCartUI() {
+      const box = document.getElementById("cartItems");
+      box.innerHTML = "";
+      let total = 0;
+      cart.forEach((item, idx) => {
+        total += item.price;
+        const div = document.createElement("div");
+        div.className = "card cart-row";
+        div.innerHTML = `
+          <div>
+            <strong>${item.name}</strong>
+            <div style="color:var(--coffee-med); font-weight:700;">$${item.price.toFixed(2)}</div>
+          </div>
+          <button class="chip" onclick="removeFromCart(${idx})">🗑️ Eliminar</button>
+        `;
+        box.appendChild(div);
+      });
+      if (cart.length === 0) {
+        box.innerHTML = `<div class="card"><p style="color:var(--app-muted); text-align:center;">Tu carrito está vacío.</p></div>`;
+      }
+      document.getElementById("cartTotal").textContent = `$${total.toFixed(2)}`;
+      document.getElementById("navCartCount").textContent = cart.length;
+    }
+
+    function confirmOrder() {
+      if (cart.length === 0) {
+        showToast("Agrega al menos un producto primero");
+        return;
+      }
+      cart = [];
+      updateCartUI();
+      goToScreen(6);
+    }
+
+    function goToScreen(num) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById("screen-" + num).classList.add("active");
+
+      document.querySelectorAll(".nav-link").forEach(t => t.classList.remove("active"));
+      const activeTab = document.getElementById("nav-" + num);
+      if (activeTab) activeTab.classList.add("active");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toggleContrast() {
+      document.body.classList.toggle("high-contrast");
+      const isOn = document.body.classList.contains("high-contrast");
+      const lbl = document.getElementById("contrastLabel");
+      lbl.textContent = isOn ? "ON" : "OFF";
+      lbl.className = isOn ? "status-on" : "status-off";
+    }
+
+    function toggleTextSize() {
+      document.body.classList.toggle("large-text");
+      const isOn = document.body.classList.contains("large-text");
+      const lbl = document.getElementById("textLabel");
+      lbl.textContent = isOn ? "ON" : "OFF";
+      lbl.className = isOn ? "status-on" : "status-off";
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toastBox");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+
+    renderMenu(products);
+    updateCartUI();
+  </script>
+</body>
+</html>
